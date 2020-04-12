@@ -11,12 +11,17 @@ thread 'TPIN'
 //===========Mercadinho /Comprar==========
 0@ = -31.2191
 1@ = -28.8962
-2@ = 1003.5573
+2@ = 1005.5573
 //==============Barco Quadrado============
 6@ = 249.9657
 7@ = -2457.6191
 8@ = -0.6011
 //=====================================
+//============Area de Barcos============
+9@ = 744.8777
+10@ = -1504.8158
+11@ = 0.8835
+//================================
 
 :TPIN_18
 wait 0 
@@ -91,7 +96,8 @@ jump @TPIN_331
 wait 0 
 if 
    Player.Defined($PLAYER_CHAR)
-else_jump @TPIN_355 
+else_jump @TPIN_355
+wait 500 
 Player.CanMove($PLAYER_CHAR) = True
 Camera.SetBehindPlayer
 Camera.Restore_WithJumpCut
@@ -104,6 +110,7 @@ end
 //=========================REPETE PROCESSO Versão Alpha=============================
 
 :TPIN_1337
+wait 0
 4@ = Actor.Angle($PLAYER_ACTOR)
 0169: set_fade_color_RGB 0 0 0 
 fade 0 500 
@@ -112,7 +119,58 @@ Player.CanMove($PLAYER_CHAR) = False
 select_interior 0 
 04FA: reset_sky_colors_with_fade 0 
 057E: set_radar_grey 0 
-04E4: refresh_game_renderer_at 0@ 1@ 
+04E4: refresh_game_renderer_at 9@ 10@ 
+//======================== Ir pra area de barcos=======================                               
+ Camera.SetAtPos(9@,10@,11@)//============================ 
+if 
+   Player.Defined($PLAYER_CHAR)
+else_jump @TPIN_299 
+0860: link_actor $PLAYER_ACTOR to_interior 0 
+
+     Actor.PutAt($PLAYER_ACTOR, 9@,10@,11@)//========================                               
+Actor.Angle($PLAYER_ACTOR) = 4@
+wait 5000
+
+//=================================================================================================
+//Pegando handle dos barcos pelo id
+0AFF: samp 29@ = car_handle_by_samp_vehicle_id 1459
+0AFF: samp 30@ = car_handle_by_samp_vehicle_id 1460
+0AFF: samp 31@ = car_handle_by_samp_vehicle_id 1461
+0AFF: samp 32@ = car_handle_by_samp_vehicle_id 1462
+//============================================================================
+if
+00B0:   is_car_in_area_2d 29@ from 710.5972 -1489.3721 to 744.8777 -1504.8158 sphere 0 == true
+then
+036A: warp_char_into_car $PLAYER_ACTOR car 29@ 
+    else if
+    00B0:   is_car_in_area_2d 30@ from 710.5972 -1489.3721 to 744.8777 -1504.8158 sphere 0 == true
+    then
+    036A: warp_char_into_car $PLAYER_ACTOR car 30@
+        else if
+        00B0:   is_car_in_area_2d 31@ from 710.5972 -1489.3721 to 744.8777 -1504.8158 sphere 0 == true
+        then
+        036A: warp_char_into_car $PLAYER_ACTOR car 31@
+            else if
+            00B0:   is_car_in_area_2d 32@ from 710.5972 -1489.3721 to 744.8777 -1504.8158 sphere 0 == true
+            then
+            036A: warp_char_into_car $PLAYER_ACTOR car 32@
+            else_jump @TPIN_1337
+end
+end
+end
+end                                                                        
+wait 2000          
+wait 0               
+4@ = Actor.Angle($PLAYER_ACTOR)
+0169: set_fade_color_RGB 0 0 0 
+fade 0 500 
+wait 500 
+Player.CanMove($PLAYER_CHAR) = False
+select_interior 0 
+04FA: reset_sky_colors_with_fade 0 
+057E: set_radar_grey 0 
+04E4: refresh_game_renderer_at 6@ 7@ 
+                                //======================== Ir pro quadrado pescar=======================
  Camera.SetAtPos(6@, 7@, 7@)//============================ 
 if 
    Player.Defined($PLAYER_CHAR)
@@ -122,4 +180,4 @@ else_jump @TPIN_299
      Actor.PutAt($PLAYER_ACTOR, 6@, 7@, 7@)//========================                               
 Actor.Angle($PLAYER_ACTOR) = 4@
 wait 2000
-jump @TPIN_175
+jump @TPIN_175 //Repete tudo  
