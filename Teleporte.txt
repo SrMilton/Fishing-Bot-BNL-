@@ -1,0 +1,121 @@
+// This file was decompiled using SASCM.ini published by GTAG (http://gtag.gtagaming.com/opcode-database) on 6.14.2013
+{$CLEO .cs}
+
+//-------------MAIN---------------
+thread 'TPIN' 
+5@ = 0
+//==============POSIÇÕES===============
+//===========Mercadinho /Comprar==========
+0@ = -31.2191
+1@ = -28.8962
+2@ = 1003.5573
+//==============Barco Quadrado============
+6@ = 249.9657
+7@ = -2457.6191
+8@ = -0.6011
+//=====================================
+
+:TPIN_18
+wait 0 
+if 
+   Player.Defined($PLAYER_CHAR)
+else_jump @TPIN_18 
+if
+   Player.Controllable($PLAYER_CHAR)
+
+else_jump @TPIN_18 
+if 
+0AB0:   key_pressed 90 
+else_jump @TPIN_88 
+5@ = 1 
+TIMERB = 0
+
+:TPIN_88
+if and
+  5@ == 1 
+0AB0:   key_pressed 88 
+else_jump @TPIN_124 
+5@ = 0 
+jump @TPIN_175 
+
+:TPIN_124
+if 
+  5@ == 1 
+else_jump @TPIN_18 
+if 
+  TIMERB > 5000 
+else_jump @TPIN_18 
+5@ = 0
+jump @TPIN_18   
+
+:TPIN_175
+4@ = Actor.Angle($PLAYER_ACTOR)
+0169: set_fade_color_RGB 0 0 0 
+fade 0 500 
+wait 500 
+Player.CanMove($PLAYER_CHAR) = False
+select_interior 0 
+04FA: reset_sky_colors_with_fade 0 
+057E: set_radar_grey 0 
+04E4: refresh_game_renderer_at 0@ 1@ 
+ Camera.SetAtPos(0@, 1@, 2@)//============================ 
+if 
+   Player.Defined($PLAYER_CHAR)
+else_jump @TPIN_299 
+0860: link_actor $PLAYER_ACTOR to_interior 0 
+
+     Actor.PutAt($PLAYER_ACTOR, 0@, 1@, 2@)//========================                               
+Actor.Angle($PLAYER_ACTOR) = 4@
+
+
+:TPIN_299
+33@ = 0
+wait 0 
+if 
+   Player.Defined($PLAYER_CHAR)
+else_jump @TPIN_299 
+wait 1500 
+fade 1 1000 
+
+:TPIN_331
+if 
+fading 
+else_jump @TPIN_355 
+wait 0 
+jump @TPIN_331 
+
+:TPIN_355
+wait 0 
+if 
+   Player.Defined($PLAYER_CHAR)
+else_jump @TPIN_355 
+Player.CanMove($PLAYER_CHAR) = True
+Camera.SetBehindPlayer
+Camera.Restore_WithJumpCut
+33@ += 1
+wait 2000
+if 33@ == 1
+then jump @TPIN_1337
+end
+
+//=========================REPETE PROCESSO Versão Alpha=============================
+
+:TPIN_1337
+4@ = Actor.Angle($PLAYER_ACTOR)
+0169: set_fade_color_RGB 0 0 0 
+fade 0 500 
+wait 500 
+Player.CanMove($PLAYER_CHAR) = False
+select_interior 0 
+04FA: reset_sky_colors_with_fade 0 
+057E: set_radar_grey 0 
+04E4: refresh_game_renderer_at 0@ 1@ 
+ Camera.SetAtPos(6@, 7@, 7@)//============================ 
+if 
+   Player.Defined($PLAYER_CHAR)
+else_jump @TPIN_299 
+0860: link_actor $PLAYER_ACTOR to_interior 0 
+
+     Actor.PutAt($PLAYER_ACTOR, 6@, 7@, 7@)//========================                               
+Actor.Angle($PLAYER_ACTOR) = 4@
+jump @TPIN_175
