@@ -13,9 +13,9 @@ thread 'TPIN'
 1@ = -28.8962
 2@ = 1003.5573
 //==============Barco Quadrado============
-6@ = 249.9657
-7@ = -2457.6191
-8@ = -0.6011
+6@ = 260.9990
+7@ = -2429.3762
+8@ = 1.2502
 //=====================================
 //============Area de Barcos============
 9@ = 744.8777
@@ -59,7 +59,7 @@ else_jump @TPIN_18
 jump @TPIN_18   
 
 :TPIN_175
- /*
+ 
 if Actor.Driving($PLAYER_ACTOR)
 then
 4@ = Actor.Angle($PLAYER_ACTOR)
@@ -80,9 +80,77 @@ else_jump @TPIN_299
  
 Actor.PutAt($PLAYER_ACTOR, 728.000, -1495.384 , 2.00)//========================IR PARA O PONTO DEVOLVER O BARCO==============                               
 Actor.Angle($PLAYER_ACTOR) = 4@
-wait 500
+wait 3000
 0AF9: samp say_msg "/sair"
-end*/
+wait 1000
+end
+
+//==============================================IR CURAR NO HP===================================
+0169: set_fade_color_RGB 0 0 0 
+fade 0 500 
+wait 500 
+Player.CanMove($PLAYER_CHAR) = False
+select_interior 0 
+04FA: reset_sky_colors_with_fade 0 
+057E: set_radar_grey 0 
+04E4: refresh_game_renderer_at 0@ 1@
+wait 2000 
+Camera.SetAtPos(1583.3031,1769.0295,10.8203)//============================ 
+if 
+Player.Defined($PLAYER_CHAR)
+else_jump @TPIN_299 
+0860: link_actor $PLAYER_ACTOR to_interior 0
+ 
+Actor.PutAt($PLAYER_ACTOR, 1583.3031,1769.0295,10.8203)                         
+Actor.Angle($PLAYER_ACTOR) = 271.3571
+wait 3000
+0AF9: samp say_msg "/entrar"
+wait 5050
+//========
+4@ = Actor.Angle($PLAYER_ACTOR)
+0169: set_fade_color_RGB 0 0 0 
+fade 0 500 
+wait 500 
+Player.CanMove($PLAYER_CHAR) = False
+select_interior 0 
+04FA: reset_sky_colors_with_fade 0 
+057E: set_radar_grey 0 
+04E4: refresh_game_renderer_at 0@ 1@
+wait 2000 
+Camera.SetAtPos(1990.5919,1345.0148,3607.3376)//============================ 
+if 
+Player.Defined($PLAYER_CHAR)
+else_jump @TPIN_299 
+0860: link_actor $PLAYER_ACTOR to_interior 0
+ 
+Actor.PutAt($PLAYER_ACTOR, 1990.5919,1345.0148,3607.3376)                         
+Actor.Angle($PLAYER_ACTOR) = 90.2609
+wait 100
+0AF9: samp say_msg "/curar"
+wait 200
+//==========
+4@ = Actor.Angle($PLAYER_ACTOR)
+0169: set_fade_color_RGB 0 0 0 
+fade 0 500 
+wait 500 
+Player.CanMove($PLAYER_CHAR) = False
+select_interior 0 
+04FA: reset_sky_colors_with_fade 0 
+057E: set_radar_grey 0 
+04E4: refresh_game_renderer_at 0@ 1@
+wait 2000 
+Camera.SetAtPos(1992.8337,1365.1229,3607.5564)//============================ 
+if 
+Player.Defined($PLAYER_CHAR)
+else_jump @TPIN_299 
+0860: link_actor $PLAYER_ACTOR to_interior 0
+ 
+Actor.PutAt($PLAYER_ACTOR, 1992.8337,1365.1229,3607.5564)                         
+Actor.Angle($PLAYER_ACTOR) = 87.2926
+wait 100
+0AF9: samp say_msg "/sair"
+wait 5050
+//====================================================================== 
 
 4@ = Actor.Angle($PLAYER_ACTOR)
 0169: set_fade_color_RGB 0 0 0 
@@ -106,10 +174,13 @@ wait 5000
 Actor.PutAt($PLAYER_ACTOR, 0@, 1@, 2@)//========================IR PARA O MERCADINHO==============                               
 Actor.Angle($PLAYER_ACTOR) = 164.2179
 wait 500
+Actor.PutAt($PLAYER_ACTOR, 0@, 1@, 2@)//========================IR PARA O MERCADINHO==============                               
+Actor.Angle($PLAYER_ACTOR) = 164.2179
+wait 1000
 
 
 0AF9: samp say_msg "/venderpeixes"
-wait 1000
+wait 1050
 0AF9: samp say_msg "/comprar"
 wait 500
 0B49: samp set_current_dialog_list_item 7
@@ -170,6 +241,13 @@ end
 //=========================REPETE PROCESSO Versão Alpha=============================
 
 :TPIN_1337
+/*
+if
+Actor.Driving($PLAYER_ACTOR)
+then
+jump @TPIN_1475
+end*/
+
 wait 0
 4@ = Actor.Angle($PLAYER_ACTOR)
 0169: set_fade_color_RGB 0 0 0 
@@ -190,7 +268,6 @@ else_jump @TPIN_299
 Actor.PutAt($PLAYER_ACTOR, 9@,10@,11@)//========================                               
 Actor.Angle($PLAYER_ACTOR) = 4@
 wait 5000
-
 //=================================================================================================
 //Pegando handle dos barcos pelo id
 0AFF: samp 29@ = car_handle_by_samp_vehicle_id 1459
@@ -199,36 +276,50 @@ wait 5000
 0AFF: samp 32@ = car_handle_by_samp_vehicle_id 1462
 //============================================================================
 if
-00B0:   car 29@ sphere 0 in_rectangle_cornerA 710.5972 -1489.3721 cornerB 744.8777 -1504.8158 == true
+00B0: car 29@ sphere 1 in_rectangle_cornerA 710.5972 -1489.3721 cornerB 744.8777 -1504.8158
 then
 0B30: samp send_enter_vehicle 1459 as_passenger false
 036A: put_actor $PLAYER_ACTOR in_car 29@
 12@ = 1
-    else if
-    00B0:   car 30@ sphere 0 in_rectangle_cornerA 710.5972 -1489.3721 cornerB 744.8777 -1504.8158
+jump @TPIN_1475
+end
+
+    if
+    00B0:   car 30@ sphere 1 in_rectangle_cornerA 710.5972 -1489.3721 cornerB 744.8777 -1504.8158
     then
     0B30: samp send_enter_vehicle 1460 as_passenger false
     036A: put_actor $PLAYER_ACTOR in_car 30@
     12@ = 2
-        else if
-        00B0:   car 31@ sphere 0 in_rectangle_cornerA 710.5972 -1489.3721 cornerB 744.8777 -1504.8158
+    jump @TPIN_1475
+    end
+        if
+        00B0:   car 31@ sphere 1 in_rectangle_cornerA 710.5972 -1489.3721 cornerB 744.8777 -1504.8158
         then
         0B30: samp send_enter_vehicle 1461 as_passenger false
         036A: put_actor $PLAYER_ACTOR in_car 31@
         12@ = 3
-            else if
-            00B0:   car 32@ sphere 0 in_rectangle_cornerA 710.5972 -1489.3721 cornerB 744.8777 -1504.8158
+        jump @TPIN_1475
+        end
+        
+            if
+            00B0:   car 32@ sphere 1 in_rectangle_cornerA 710.5972 -1489.3721 cornerB 744.8777 -1504.8158
             then
             0B30: samp send_enter_vehicle 1462 as_passenger false
             036A: put_actor $PLAYER_ACTOR in_car 32@
             12@ = 4
-            else_jump @TPIN_1337
-end
-end
-end
-end                                                               
-                                                                      
-wait 2000
+            jump @TPIN_1475
+            end
+wait 100
+            
+if Actor.Driving($PLAYER_ACTOR)
+then
+jump @TPIN_1475
+else
+jump @TPIN_1337
+end            
+
+:TPIN_1475                                                                                                                                   
+wait 300
 /*0AF9: samp say_msg "/alugarveiculo" 
 wait 1000
 0AF9: samp say_msg "/v ligar"
@@ -254,8 +345,41 @@ else_jump @TPIN_299
 Actor.Angle($PLAYER_ACTOR) = 4@
 wait 6000
 //============================COMEÇAR A PESCAR=============================
+
+for 28@ = 1 to 20
+wait 0
 0AF9: samp say_msg "/sair"
+wait 1000 
+0AF9: samp say_msg "/pescar"
+wait 120000
+
+if 12@ == 1
+then
+0B30: samp send_enter_vehicle 1459 as_passenger 0
+036A: put_actor $PLAYER_ACTOR in_car 29@
+end
+    if 12@ == 2
+    then
+    0B30: samp send_enter_vehicle 1460 as_passenger 0
+    036A: put_actor $PLAYER_ACTOR in_car 30@
+        end
+        if 12@ == 3
+        then
+        0B30: samp send_enter_vehicle 1461 as_passenger 0
+        036A: put_actor $PLAYER_ACTOR in_car 31@
+            end
+            if 12@ == 4
+            then
+            0B30: samp send_enter_vehicle 1462 as_passenger 0
+            036A: put_actor $PLAYER_ACTOR in_car 32@
+            end
+
+Actor.PutAt($PLAYER_ACTOR, 6@, 7@, 8@)//========================COLOCAR O BARCO DE VOLTA NO LUGAR==============                               
+Actor.Angle($PLAYER_ACTOR) = 164.2179
 wait 1000
+end
+
+ /*
 0AF9: samp say_msg "/pescar"
 wait 120000
 0AF9: samp say_msg "/pescar"
@@ -293,9 +417,7 @@ wait 120000
 0AF9: samp say_msg "/pescar"
 wait 120000
 0AF9: samp say_msg "/pescar"
-wait 120000
-0AF9: samp say_msg "/pescar"
-wait 120000
+wait 120000   */
 if 12@ == 1
 then
 //036A: warp_char_into_car $PLAYER_ACTOR car 29@
